@@ -12,11 +12,28 @@ const publicPath = path.join(__dirname, "../public"),
 app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
-    socket.on("createMessage", (newMessage) => {
+    socket.emit("welcomeMessage", {
+        text: "Welcome to the chat room!",
+        from: "Admin",
+        createdAt: new Date().getTime()
+    });
+
+    socket.broadcast.emit("newUserMessage", {
+        text: "A new user has joined!",
+        from: "Admin",
+        createdAt: new Date().getTime()
+    });
+
+    socket.on("createMessage", (message) => {
         io.emit("newMessage", {
-            ...newMessage,
+            ...message,
             createdAt: new Date().getTime()
         });
+
+        // socket.broadcast.emit("newMessage", {
+        //     ...message,
+        //     createdAt: new Date().getTime()
+        // });
     });
 });
 
