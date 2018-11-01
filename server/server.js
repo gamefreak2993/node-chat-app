@@ -13,7 +13,7 @@ app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
     socket.on("createMessage", (newMessage) => {
-        socket.emit("newMessage", {
+        io.emit("newMessage", {
             ...newMessage,
             createdAt: new Date().getTime()
         });
