@@ -3,6 +3,8 @@ const path = require("path"),
     express = require("express"),
     socketIO = require("socket.io");
 
+const { generateMessage } = require("./utils/messages");
+
 const publicPath = path.join(__dirname, "../public"),
     app = express(),
     server = http.createServer(app),
@@ -12,23 +14,12 @@ const publicPath = path.join(__dirname, "../public"),
 app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
-    socket.emit("welcomeMessage", {
-        text: "Welcome to the chat room!",
-        from: "Admin",
-        createdAt: new Date().getTime()
-    });
+    socket.emit("welcomeMessage", generateMessage("Admin", "Welcome to the chat room!"));
 
-    socket.broadcast.emit("newUserMessage", {
-        text: "A new user has joined!",
-        from: "Admin",
-        createdAt: new Date().getTime()
-    });
+    socket.broadcast.emit("newUserMessage", generateMessage("Admin", "New user joined!"));
 
     socket.on("createMessage", (message) => {
-        io.emit("newMessage", {
-            ...message,
-            createdAt: new Date().getTime()
-        });
+        io.emit("newMessage", generateMessage(message.from, message.text));
 
         // socket.broadcast.emit("newMessage", {
         //     ...message,
