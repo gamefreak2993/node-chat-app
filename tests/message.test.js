@@ -1,7 +1,7 @@
-const { generateMessage } = require("./messages");
+import { generateMessage } from "./../server/utils/messages";
 
 describe("generateMessage", () => {
-    test("should generate a message object with a \"createdAt\" property", () => {
+    it("should generate a message object with a \"createdAt\" property", () => {
         const from = "Admin",
             text = "Testing message.",
             message = generateMessage(from, text);
