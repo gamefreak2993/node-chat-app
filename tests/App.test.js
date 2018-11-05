@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import App from "./../public/src/scripts/react/App";
 
 describe("<App/>", () => {
@@ -16,7 +16,7 @@ describe("<App/>", () => {
     });
 
     it("should render the chat panel correctly", () => {
-        const wrapper = shallow(<App/>),
+        const wrapper = mount(<App/>),
             chat = wrapper.find("#chat"),
                 chatPanel = chat.find("#chat-panel"),
                     chatMessages = chatPanel.find(".chat-message"),
@@ -34,7 +34,7 @@ describe("<App/>", () => {
     });
 
     it("should add a new message when submitting the form", () => {
-        const wrapper = shallow(<App/>),
+        const wrapper = mount(<App/>),
             chatForm = wrapper.find("#chat-form"),
             chatMessage = wrapper.find(".chat-message").last().find(".chat-text").text();
 

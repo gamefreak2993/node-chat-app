@@ -39,10 +39,12 @@
   "homepage": "https://github.com/gamefreak2993/node-chat-app#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-router-dom": "^4.3.1",
+    "react-transition-group": "^2.5.0",
     "socket.io": "^2.1.1"
   },
   "devDependencies": {
