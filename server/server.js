@@ -13,6 +13,10 @@ const publicPath = path.join(__dirname, "../public"),
 
 app.use(express.static(publicPath));
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
 io.on("connection", (socket) => {
     socket.emit("welcomeMessage", generateMessage("Admin", "Welcome to the chat room!"));
 
@@ -20,7 +24,7 @@ io.on("connection", (socket) => {
 
     socket.on("createMessage", (message, callback) => {
         io.emit("newMessage", generateMessage(message.from, message.text));
-        callback("This is from the server.");
+        callback();
     });
 });
 

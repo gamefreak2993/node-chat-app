@@ -1,10 +1,10 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import App from "./../public/src/scripts/react/App";
+import Chat from "../public/src/scripts/react/components/Chat";
 
-describe("<App/>", () => {
+describe("<Chat/>", () => {
     it("should have an initial state with one message", () => {
-        const wrapper = shallow(<App/>);
+        const wrapper = shallow(<Chat/>);
 
         const message = {
             from: "Admin",
@@ -16,7 +16,7 @@ describe("<App/>", () => {
     });
 
     it("should render the chat panel correctly", () => {
-        const wrapper = mount(<App/>),
+        const wrapper = mount(<Chat/>),
             chat = wrapper.find("#chat"),
                 chatPanel = chat.find("#chat-panel"),
                     chatMessages = chatPanel.find(".chat-message"),
@@ -34,7 +34,7 @@ describe("<App/>", () => {
     });
 
     it("should add a new message when submitting the form", () => {
-        const wrapper = mount(<App/>),
+        const wrapper = mount(<Chat/>),
             chatForm = wrapper.find("#chat-form"),
             chatMessage = wrapper.find(".chat-message").last().find(".chat-text").text();
 

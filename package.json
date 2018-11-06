@@ -38,7 +38,11 @@
   },
   "homepage": "https://github.com/gamefreak2993/node-chat-app#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
+    "@fortawesome/react-fontawesome": "^0.1.3",
     "express": "^4.16.4",
+    "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
