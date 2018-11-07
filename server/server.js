@@ -23,14 +23,24 @@ app.get('*', (req, res) => {
 io.on("connection", (socket) => {
     socket.on("login", (instance, callback) => {
         if (!isRealString(instance.name)) {
-            callback("Name is required!", ["name"]);
-        } else if (!isRealString(instance.room)) {
-            callback("Room is required!", ["room"]);
-        } else if (!isRealString(instance.name) && !isRealString(instance.room)) {
-            callback("Room is required!", ["name", "room"]);
-        } else {
-            callback();
+            return callback("Name is required!", ["name"]);
         };
+        
+        if (!isRealString(instance.room)) {
+            return callback("Room is required!", ["room"]);
+        };
+
+        if (!isRealString(instance.name) && !isRealString(instance.room)) {
+            return callback("Name and Room are required!", ["name", "room"]);
+        };
+
+        users.users.forEach((user) => {
+            if (user.name === instance.name) {
+                return callback("Name is already in use!", ["name"]);
+            };
+        });
+
+        callback();
     });
 
     socket.on("joined", (instance, callback) => {
