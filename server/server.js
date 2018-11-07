@@ -44,6 +44,8 @@ io.on("connection", (socket) => {
     });
 
     socket.on("joined", (instance, callback) => {
+        instance.room = instance.room.toLowerCase();
+
         if (!isRealString(instance.name) || !isRealString(instance.room)) {
             return callback("Name and room are required!");
         };
