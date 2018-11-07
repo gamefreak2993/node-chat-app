@@ -3,13 +3,16 @@ const path = require("path"),
     express = require("express"),
     socketIO = require("socket.io");
 
-const { generateMessage } = require("./utils/messages");
+const { generateMessage } = require("./utils/messages"),
+    { isRealString } = require("./utils/validation"),
+    { Users } = require("./utils/users");
 
 const publicPath = path.join(__dirname, "../public"),
     app = express(),
     server = http.createServer(app),
     io = socketIO(server),
-    port = process.env.PORT || 3000;
+    port = process.env.PORT || 3000,
+    users = new Users();
 
 app.use(express.static(publicPath));
 
@@ -18,13 +21,52 @@ app.get('*', (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    socket.emit("welcomeMessage", generateMessage("Admin", "Welcome to the chat room!"));
+    socket.on("login", (instance, callback) => {
+        if (!isRealString(instance.name)) {
+            callback("Name is required!", ["name"]);
+        } else if (!isRealString(instance.room)) {
+            callback("Room is required!", ["room"]);
+        } else if (!isRealString(instance.name) && !isRealString(instance.room)) {
+            callback("Room is required!", ["name", "room"]);
+        } else {
+            callback();
+        };
+    });
 
-    socket.broadcast.emit("newUserMessage", generateMessage("Admin", "New user joined!"));
+    socket.on("joined", (instance, callback) => {
+        if (!isRealString(instance.name) || !isRealString(instance.room)) {
+            callback("Name and room are required!");
+        } else {
+            socket.join(instance.room);
+
+            users.removeUser(socket.id);
+            users.addUser(socket.id, instance.name, instance.room);
+
+            io.to(instance.room).emit("updateUserList", users.getAllUsers(instance.room));
+
+            socket.emit("welcomeMessage", generateMessage("Admin", `Welcome to <${instance.room}>.`));
+            socket.broadcast.to(instance.room).emit("newUserMessage", generateMessage("Admin", `<${instance.name}> has joined.`));
+            callback();
+        };
+    });
 
     socket.on("createMessage", (message, callback) => {
-        io.emit("newMessage", generateMessage(message.from, message.text));
-        callback();
+        if (!isRealString(message.text)) {
+            callback("Name and room name are required!")
+        } else {
+            io.emit("newMessage", generateMessage(message.from, message.text));
+            callback();
+        };
+    });
+
+    socket.on("disconnect", () => {
+        const user = users.removeUser(socket.id);
+
+        if (user) {
+            io.to(user.room).emit("updateUserList", users.getAllUsers(user.room));
+
+            io.to(user.room).emit("newMessage", generateMessage("Admin", `<${user.name}> has left!`));
+        };
     });
 });
 
