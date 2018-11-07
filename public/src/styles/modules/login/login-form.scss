@@ -1,0 +1,92 @@
+#login-form {
+    .input-group {
+        margin-bottom: 30px;
+        position: relative;
+
+        label {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            color: $dark;
+            cursor: text;
+            transition: all 0.25s ease-in-out;
+
+            svg {
+                margin-right: 0.5em;
+                transition: all 0.25s ease-in-out;
+            }
+        }
+
+        input {
+            all: unset;
+            width: 100%;
+            border-bottom: 2px solid $dark;
+            border-radius: 2px;
+            padding: 15px 0;
+            box-sizing: border-box;
+            font-size: 1.2em;
+            font-weight: 500;
+            transition: all 0.25s ease-in-out;
+
+            &.bad {
+                border-color: red;
+
+                & + label {
+                    svg {
+                        color: red;
+                    }
+                }
+
+                &.touched,
+                &:focus {
+                    border-color: red;
+    
+                    & + label {
+                        svg {
+                            color: red;
+                        }
+                    }
+                }
+            }
+
+            &.touched,
+            &:focus {
+                margin-top: 17px; // Account for icon height
+                border-color: $primary-color;
+
+                & + label {
+                    bottom: calc(100% - 17px); // Account for icon height
+                    left: 0;
+                    font-size: 0.8em;
+                    font-weight: 600;
+    
+                    svg {
+                        color: $primary-color;
+                        font-size: initial;
+                    }
+                }
+            }
+        }
+    }
+
+    #login-submit {
+        all: unset;
+        display: block;
+        padding: 10px 20px;
+        margin: 0 auto;
+        min-width: 100px;
+        max-width: 50%;
+        border-radius: 20px;
+        text-align: center;
+        font-weight: 600;
+        background-color: $primary-color;
+        color: white;
+        cursor: pointer;
+        transition: all 0.25s ease-in-out;
+
+        &:hover,
+        &:focus {
+            opacity: 0.8;
+        }
+    }
+}

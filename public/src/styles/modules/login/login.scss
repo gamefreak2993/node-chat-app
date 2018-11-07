@@ -1,0 +1,32 @@
+#login {
+    margin: auto 10%;
+    height: min-content;
+
+    @media only screen and (min-width: 768px) {
+        margin: auto 25%;
+    }
+
+    @media only screen and (min-width: 992px) {
+        margin: auto 35%;
+    }
+
+    @media only screen and (min-width: 1200px) {
+        margin: auto 40%;
+    }
+
+    #error {
+        text-align: center;
+        margin: 0;
+        margin-top: 20px;
+        color: red;
+        font-family: 'Lato';
+        font-weight: 600;
+        font-size: 0.8em;
+        transition: all 0.25s ease-in-out;
+
+        &:empty {
+            height: 0;
+            margin: 0;
+        }
+    }
+}

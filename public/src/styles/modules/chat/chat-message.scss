@@ -1,0 +1,83 @@
+.chat-message {
+    position: relative;
+    max-width: 100%;
+    justify-self: start;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-areas: "content details";
+    align-items: center;
+
+    .chat-content {
+        grid-area: content;
+        background: linear-gradient(105deg, lighten($primary-color, 15%), lighten($primary-color, 25%));
+        padding: 10px 20px 10px 10px;
+        border-radius: 25px;
+        color: white;
+        display: inline-block;
+        display: grid;
+        grid-template-areas: "from text";
+        align-items: center;
+
+        .chat-from {
+            grid-area: from;
+            background-color: white;
+            box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 10px;
+            color: $primary-color;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+
+    .chat-details {
+        grid-area: details;
+        color: #999999;
+        font-size: 0.6em;
+    }
+
+    &.me {
+        justify-self: end;
+        grid-template-areas: "details content";
+        
+        .chat-content {
+            background: linear-gradient(-105deg, darken($light, 5%), darken($light, 15%));
+
+            .chat-from {
+                color: #999999;
+            }
+        }
+
+        .chat-details {
+            text-align: right;
+        }
+    }
+
+    &.admin {
+        .chat-content {
+            background: none;
+            color: #999999;
+            padding: 0 10px;
+
+            .chat-from {
+                background: linear-gradient(-105deg, darken($light, 5%), darken($light, 15%));
+                color: white;
+                box-shadow: none;
+            }
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        max-width: 90%;
+    }
+
+    @media only screen and (min-width: 992px) {
+        max-width: 80%;
+    }
+
+    @media only screen and (min-width: 1200px) {
+        max-width: 70%;
+    }
+}
