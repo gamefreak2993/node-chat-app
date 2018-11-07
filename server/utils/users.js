@@ -5,6 +5,7 @@ class Users {
 
     addUser(id, name, room) {
         const user = {id, name, room};
+
         this.users.push(user);
         return user;
     };
@@ -25,9 +26,8 @@ class Users {
 
     getAllUsers(room) {
         const filteredUsers = this.users.filter((user) => user.room === room);
-        const usersNames = filteredUsers.map((user) => user.name);
 
-        return usersNames;
+        return filteredUsers;
     };
 };
 

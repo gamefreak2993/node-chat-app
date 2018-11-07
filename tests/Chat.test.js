@@ -57,6 +57,6 @@ describe("<Chat/>", () => {
 
         setTimeout(() => {
             expect(chatMessage).toBe(seedMessage);
-        }, 0); // It needs to wait for socket.io
+        }, 0); // * It needs to wait for socket.io
     });
 });

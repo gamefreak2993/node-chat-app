@@ -20,7 +20,7 @@ describe("Users", () => {
         }];
     });
 
-    it("should add a new user", () => {
+    it("should add a new user correctly", () => {
         users = new Users();
 
         const user = {
@@ -31,7 +31,7 @@ describe("Users", () => {
 
         const resUser = users.addUser(user.id, user.name, user.room);
 
-        expect(users.users).toEqual([user]);
+        expect(users.users).toEqual([{"id": "123", "name": "Mihai", "room": "Gaming"}]);
     });
 
     it("should remove a user", () => {
@@ -67,12 +67,12 @@ describe("Users", () => {
     it("should return names for Gaming room", () => {
         const usersList = users.getAllUsers("Gaming");
 
-        expect(usersList).toEqual(["Mihai", "Adi"]);
+        expect(usersList).toEqual([{"id": "1", "name": "Mihai", "room": "Gaming"}, {"id": "3", "name": "Adi", "room": "Gaming"}]);
     });
 
     it("should return names for Node Course room", () => {
         const usersList = users.getAllUsers("Node Course");
 
-        expect(usersList).toEqual(["Alex"]);
+        expect(usersList).toEqual([{"id": "2", "name": "Alex", "room": "Node Course"}]);
     });
 });

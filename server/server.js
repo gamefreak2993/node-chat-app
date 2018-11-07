@@ -45,19 +45,25 @@ io.on("connection", (socket) => {
 
     socket.on("joined", (instance, callback) => {
         if (!isRealString(instance.name) || !isRealString(instance.room)) {
-            callback("Name and room are required!");
-        } else {
-            socket.join(instance.room);
-
-            users.removeUser(socket.id);
-            users.addUser(socket.id, instance.name, instance.room);
-
-            io.to(instance.room).emit("updateUserList", users.getAllUsers(instance.room));
-
-            socket.emit("welcomeMessage", generateMessage("Admin", `Welcome to <${instance.room}>.`));
-            socket.broadcast.to(instance.room).emit("newUserMessage", generateMessage("Admin", `<${instance.name}> has joined.`));
-            callback();
+            return callback("Name and room are required!");
         };
+
+        users.users.forEach((user) => {
+            if (user.name === instance.name) {
+                return callback("Name is already in use!");
+            };
+        });
+
+        socket.join(instance.room);
+
+        users.removeUser(socket.id);
+        users.addUser(socket.id, instance.name, instance.room);
+
+        io.to(instance.room).emit("updateUserList", users.getAllUsers(instance.room));
+
+        socket.emit("welcomeMessage", generateMessage("Admin", `Welcome to <${instance.room}>.`));
+        socket.broadcast.to(instance.room).emit("newUserMessage", generateMessage("Admin", `<${instance.name}> has joined.`));
+        callback();
     });
 
     socket.on("createMessage", (message, callback) => {
